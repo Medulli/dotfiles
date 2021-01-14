@@ -1,0 +1,46 @@
+# For WSL
+# shell:
+#  program: "C:\\Users\\Julien\\AppData\\Local\\Microsoft\\WindowsApps\\ubuntu.exe"
+
+font:
+    normal:
+      family: "MesloLGS NF"
+      style: Regular
+    bold:
+      style: Bold
+    italic:
+      style: Italic
+    bold_italic:
+      style: Bold Italic
+    # Point size of the font
+    size: 13
+
+colors:
+  # Default colors
+  primary:
+    background: '0x000000'
+    foreground: '0xc1c1c1'
+
+  # Normal colors
+  normal:
+    black:   '0x000000'
+    # red:     '0xe78a53'
+    red:     '0x974b46'
+    green:   '0x5f8787'
+    yellow:  '0xfbcb97'
+    blue:    '0x888888'
+    magenta: '0x999999'
+    cyan:    '0xaaaaaa'
+    white:   '0xc1c1c1'
+
+  # Bright colors
+  bright:
+    black:   '0x333333'
+    # red:     '0xe78a53'
+    red:     '0x974b46'
+    green:   '0x5f8787'
+    yellow:  '0xfbcb97'
+    blue:    '0x888888'
+    magenta: '0x999999'
+    cyan:    '0xaaaaaa'
+    white:   '0xc1c1c1'

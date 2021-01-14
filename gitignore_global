@@ -1,0 +1,13 @@
+*~
+.DS_Store
+.metals/
+.bloop/
+.idea/
+*.swp
+.*.swp
+.*.*.swp
+*.swo
+.*.swo
+.scalafmt.conf
+metals.sbt
+

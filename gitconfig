@@ -1,0 +1,30 @@
+[user]
+    name = Julien Michelet
+    email = my@mail.com
+[alias]
+    all = "!f() { ls -R -d */.git | xargs -I{} bash -c \"echo {} && git -C {}/../ $1\"; }; f"
+    addp = add --patch
+    branch-name = rev-parse --abbrev-ref HEAD
+    bru = ! bash -c 'git branch --sort=committerdate --no-merged master \
+            | grep -- ${1:-/}' -
+    ci =  "!f() { git commit -m \"$*\"; }; f"
+    com = commit
+    coma = commit --amend --no-edit
+    co = checkout
+    fmerge = merge --no-ff -
+    hedit = ! bash -c 'git rebase -i HEAD~$0'
+    p = pull-request
+    please = push --force-with-lease
+    pusho = ! bash -c 'git push --set-upstream origin $(git branch-name)'
+    rewind = ! bash -c 'git reset HEAD~$0'
+    rhardu = reset --hard @{upstream}
+    rpull = pull --rebase
+    rpulls = ! git stash save && git pull --rebase && git stash pop
+    slog = shortlog -sn --no-merges
+    sta = status
+    lg = log --all --decorate --oneline --graph
+[core]
+    excludesfile = ~/.gitignore_global
+    editor = nvim
+[commit]
+    template = ~/.stCommitMsg
