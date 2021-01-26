@@ -21,7 +21,7 @@
     rpull = pull --rebase
     rpulls = ! git stash save && git pull --rebase && git stash pop
     slog = shortlog -sn --no-merges
-    sta = status
+    sta = status --short --branch
     lg = log --all --decorate --oneline --graph
 [core]
     excludesfile = ~/.gitignore_global
