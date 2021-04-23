@@ -90,7 +90,7 @@ zinit light Aloxaf/fzf-tab
 zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat"
 zinit light sharkdp/bat
 # EXA
-zinit ice wait"2" lucid from"gh-r" as"program" mv"exa* -> exa" atload"alias ls=exa"
+zinit ice wait"2" lucid from"gh-r" as"program" mv"bin/exa* -> exa" atload"alias ls=exa"
 zinit light ogham/exa
 # PIP completions
 zinit ice wait"2" svn lucid
