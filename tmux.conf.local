@@ -342,6 +342,13 @@ set -g mouse on
 # no timeout after ESC keystroke
 set -s escape-time 0
 
+set -g status 2
+set -g status-format[1] "#{sysstat_cpu} | #{sysstat_mem}"
+# set -g status-format[1] "#{sysstat_cpu} | #{sysstat_mem} | #{network_bandwidth}"
+
+# set -g status-format[1] "#(rainbarf --rgb --tmux --no-battery --width 195)"
+# status-format[1] "#[align=centre]#{P:#{?pane_active,#[reverse],}#{pane_index}[#{pane_width}x#{pane_height}]#[default] }"
+
 # -- tpm -----------------------------------------------------------------------
 
 # whenever a plugin introduces a variable to be used in 'status-left' or
