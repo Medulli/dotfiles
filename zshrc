@@ -181,9 +181,10 @@ KEYTIMEOUT=1
 export GOPATH="${HOME}/.go"
 export GOROOT="/usr/local/opt/go/libexec"
 
+# export PYTHONROOT="$(brew --prefix python)/bin"
 export PYTHONROOT="/usr/local/opt/python/bin"
 
-export PATH="$HOME/.cargo/bin:$HOME/repos/data-deployer/src:$HOME/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:${GOPATH}/bin:${GOROOT}/bin:${PYTHONROOT}:$PATH"
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$HOME/.cargo/bin:$HOME/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:${GOPATH}/bin:${GOROOT}/bin:${PYTHONROOT}:$PATH"
 
 export SBT_CREDENTIALS="$HOME/.sbt/.credentials"
 export SBT_OPTS="-XX:+CMSClassUnloadingEnabled -Xmx2G"
@@ -232,6 +233,8 @@ bindkey '^Z' fancy-ctrl-z
 #####################
 # FZF SETTINGS      #
 #####################
+# --bind 'ctrl-v:execute(code {+})'
+# --bind 'ctrl-e:execute(nvim {} < /dev/tty > /dev/tty 2>&1)' > selected
 export FZF_DEFAULT_OPTS="
 --color='16,border:15'
 --ansi
