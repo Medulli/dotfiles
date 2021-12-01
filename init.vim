@@ -457,7 +457,7 @@ endif
 " vim-python
 augroup vimrc-python
   autocmd!
-  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
+  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=120
       \ softtabstop=4
       \ formatoptions+=croq
       \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
@@ -505,7 +505,7 @@ autocmd FileType go setlocal ft=go ts=8 sw=8 noexpandtab colorcolumn=120
 " command! MetalsRestart :call CocRequestAsync('metals', 'workspace/executeCommand', { 'command': 'restartServer' })
 
 " Auto-install coc.nvim extensions
-let g:coc_global_extensions = ['coc-metals', 'coc-go', 'coc-python']
+let g:coc_global_extensions = ['coc-metals', 'coc-go', 'coc-jedi']
 
 " scala doc indent
 let g:scala_scaladoc_indent = 1
