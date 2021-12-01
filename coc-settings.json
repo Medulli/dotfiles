@@ -1,3 +1,4 @@
 {
-    "python.jediEnabled": false
+    "python.pythonPath": "python3",
+    "jedi.executable.command": "/usr/local/bin/jedi-language-server"
 }
