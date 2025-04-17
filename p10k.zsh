@@ -25,6 +25,9 @@
     # os_icon               # os identifier
     dir                     # current directory
     vcs                     # git status
+    virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
+    # anaconda                # conda environment (https://conda.io/)
+    # pyenv                   # python environment (https://github.com/pyenv/pyenv)
     time                    # current time
     command_execution_time  # duration of the last command
     # =========================[ Line #2 ]=========================
@@ -472,6 +475,78 @@
   typeset -g POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND=1
   # Custom icon.
   # typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VISUAL_IDENTIFIER_EXPANSION='⭐'
+
+  ###[ virtualenv: python virtual environment (https://docs.python.org/3/library/venv.html) ]###
+  # Python virtual environment color.
+  typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=3
+  # Don't show Python version next to the virtual environment name.
+  typeset -g POWERLEVEL9K_VIRTUALENV_SHOW_PYTHON_VERSION=false
+  # If set to "false", won't show virtualenv if pyenv is already shown.
+  # If set to "if-different", won't show virtualenv if it's the same as pyenv.
+  typeset -g POWERLEVEL9K_VIRTUALENV_SHOW_WITH_PYENV=false
+  # Separate environment name from Python version only with a space.
+  typeset -g POWERLEVEL9K_VIRTUALENV_{LEFT,RIGHT}_DELIMITER=
+  # Custom icon.
+  # typeset -g POWERLEVEL9K_VIRTUALENV_VISUAL_IDENTIFIER_EXPANSION='⭐'
+
+  #####################[ anaconda: conda environment (https://conda.io/) ]######################
+  # Anaconda environment color.
+  typeset -g POWERLEVEL9K_ANACONDA_FOREGROUND=3
+
+  # Anaconda segment format. The following parameters are available within the expansion.
+  #
+  # - CONDA_PREFIX                 Absolute path to the active Anaconda/Miniconda environment.
+  # - CONDA_DEFAULT_ENV            Name of the active Anaconda/Miniconda environment.
+  # - CONDA_PROMPT_MODIFIER        Configurable prompt modifier (see below).
+  # - P9K_ANACONDA_PYTHON_VERSION  Current python version (python --version).
+  #
+  # CONDA_PROMPT_MODIFIER can be configured with the following command:
+  #
+  #   conda config --set env_prompt '({default_env}) '
+  #
+  # The last argument is a Python format string that can use the following variables:
+  #
+  # - prefix       The same as CONDA_PREFIX.
+  # - default_env  The same as CONDA_DEFAULT_ENV.
+  # - name         The last segment of CONDA_PREFIX.
+  # - stacked_env  Comma-separated list of names in the environment stack. The first element is
+  #                always the same as default_env.
+  #
+  # Note: '({default_env}) ' is the default value of env_prompt.
+  #
+  # The default value of POWERLEVEL9K_ANACONDA_CONTENT_EXPANSION expands to $CONDA_PROMPT_MODIFIER
+  # without the surrounding parentheses, or to the last path component of CONDA_PREFIX if the former
+  # is empty.
+  typeset -g POWERLEVEL9K_ANACONDA_CONTENT_EXPANSION='${${${${CONDA_PROMPT_MODIFIER#\(}% }%\)}:-${CONDA_PREFIX:t}}'
+
+  # Custom icon.
+  # typeset -g POWERLEVEL9K_ANACONDA_VISUAL_IDENTIFIER_EXPANSION='⭐'
+
+  ################[ pyenv: python environment (https://github.com/pyenv/pyenv) ]################
+  # Pyenv color.
+  typeset -g POWERLEVEL9K_PYENV_FOREGROUND=3
+  # Hide python version if it doesn't come from one of these sources.
+  typeset -g POWERLEVEL9K_PYENV_SOURCES=(shell local global)
+  # If set to false, hide python version if it's the same as global:
+  # $(pyenv version-name) == $(pyenv global).
+  typeset -g POWERLEVEL9K_PYENV_PROMPT_ALWAYS_SHOW=false
+  # If set to false, hide python version if it's equal to "system".
+  typeset -g POWERLEVEL9K_PYENV_SHOW_SYSTEM=true
+
+  # Pyenv segment format. The following parameters are available within the expansion.
+  #
+  # - P9K_CONTENT                Current pyenv environment (pyenv version-name).
+  # - P9K_PYENV_PYTHON_VERSION   Current python version (python --version).
+  #
+  # The default format has the following logic:
+  #
+  # 1. Display just "$P9K_CONTENT" if it's equal to "$P9K_PYENV_PYTHON_VERSION" or
+  #    starts with "$P9K_PYENV_PYTHON_VERSION/".
+  # 2. Otherwise display "$P9K_CONTENT $P9K_PYENV_PYTHON_VERSION".
+  typeset -g POWERLEVEL9K_PYENV_CONTENT_EXPANSION='${P9K_CONTENT}${${P9K_CONTENT:#$P9K_PYENV_PYTHON_VERSION(|/*)}:+ $P9K_PYENV_PYTHON_VERSION}'
+
+  # Custom icon.
+  # typeset -g POWERLEVEL9K_PYENV_VISUAL_IDENTIFIER_EXPANSION='⭐'
 
   #####################################[ wifi: wifi speed ]#####################################
   # WiFi color.

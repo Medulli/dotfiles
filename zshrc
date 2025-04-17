@@ -63,9 +63,25 @@ zstyle ':fzf-tab:*' single-group ''
 zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':completion:*' special-dirs true
 
-zstyle ":fzf-tab:complete:(exa|ls|bat|cat|nvim|vim|rm|cd|cp|mv):*" fzf-preview '
+# custom fzf flags
+# NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
+zstyle ':fzf-tab:*' fzf-flags --ansi \
+    --layout=default \
+    --info=inline \
+    --height=50% \
+    --multi \
+    --reverse \
+    --preview-window=right:50% \
+    --preview-window=sharp \
+    --preview-window=cycle \
+    --color='16,border:15' \
+    --prompt='λ -> ' \
+    --pointer='|>' \
+    --marker='✓'
+
+zstyle ":fzf-tab:complete:(eza|ls|bat|cat|nvim|vim|rm|cd|cp|mv):*" fzf-preview '
   bat --style=numbers --color=always --line-range :250 $realpath 2>/dev/null ||
-  exa -1 --color=always --icons --group-directories-first $realpath
+  eza -1 --color=always --icons --group-directories-first $realpath
 '
 # give a preview of commandline arguments when completing `kill`
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
@@ -89,12 +105,18 @@ zinit light Aloxaf/fzf-tab
 # BAT
 zinit ice from"gh-r" as"program" mv"bat* -> bat" pick"bat/bat"
 zinit light sharkdp/bat
-# EXA
-zinit ice wait"2" lucid from"gh-r" as"program" mv"bin/exa* -> exa" atload"alias ls=exa"
-zinit light ogham/exa
+
+# eza - Not working as there is no macos binary on github. Use brew instead
+# zinit ice wait"2" lucid from"gh-r" as"program"
+# mv"eza* -> eza" pick"eza/eza"
+# atload"alias ls=eza"
+# zinit light eza-community/eza
+
 # PIP completions
-zinit ice wait"2" svn lucid
-zinit snippet OMZ::plugins/pip
+# SVN support not working
+# zinit ice wait"2" svn lucid
+# zinit snippet OMZP::pip
+
 # THE FUCK - type fuck after invalid command
 zplugin ice wait'1' lucid
 zplugin light laggardkernel/zsh-thefuck
@@ -184,12 +206,17 @@ export GOROOT="/usr/local/opt/go/libexec"
 # export PYTHONROOT="$(brew --prefix python)/bin"
 export PYTHONROOT="/usr/local/opt/python/bin"
 
-export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$HOME/.cargo/bin:$HOME/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:${GOPATH}/bin:${GOROOT}/bin:${PYTHONROOT}:$PATH"
+export PATH="$HOME/Library/Application Support/Coursier/bin:/usr/local/opt/gnu-sed/libexec/gnubin:$HOME/.cargo/bin:$HOME/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:${GOPATH}/bin:${GOROOT}/bin:${PYTHONROOT}:$PATH"
 
 export SBT_CREDENTIALS="$HOME/.sbt/.credentials"
 export SBT_OPTS="-XX:+CMSClassUnloadingEnabled -Xmx2G"
 
 # export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home"
+
+export CONDA_AUTO_ACTIVATE_BASE=false
+
+export HOMEBREW_NO_ANALYTICS=1
 
 #####################
 # COLORING          #
@@ -200,6 +227,8 @@ autoload colors && colors
 # ALIASES           #
 #####################
 alias vim="nvim"
+alias ls="eza"
+alias penv="source ./venv/bin/activate"
 
 # OS specific alisases
 if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then

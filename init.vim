@@ -32,8 +32,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'airblade/vim-gitgutter'
-Plug 'vim-scripts/grep.vim'
 Plug 'vim-scripts/CSApprox'
+Plug 'vim-scripts/grep.vim'
 " Plug 'Raimondi/delimitMate' " Auto bracket closing
 Plug 'majutsushi/tagbar'
 Plug 'Yggdroot/indentLine'
@@ -43,15 +43,12 @@ let g:polyglot_disabled = ['python']
 Plug 'sheerun/vim-polyglot'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
-if isdirectory('/usr/local/opt/fzf')
-  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
-else
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-  Plug 'junegunn/fzf.vim'
-endif
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
 let g:make = 'gmake'
 if exists('make')
-        let g:make = 'make'
+  let g:make = 'make'
 endif
 Plug 'Shougo/vimproc.vim', {'do': g:make}
 
@@ -70,7 +67,6 @@ Plug 'chriskempson/base16-vim'
 Plug 'fcpg/vim-fahrenheit'
 Plug 'alessandroyorba/despacio'
 Plug 'junegunn/seoul256.vim'
-Plug 'ajh17/Spacegray.vim'
 Plug 'KKPMW/moonshine-vim'
 
 Plug 'medulli/base16-minimalist-dark'
@@ -190,7 +186,7 @@ else
 
   " IndentLine
   let g:indentLine_enabled = 1
-  let g:indentLine_concealcursor = 0
+  let g:indentLine_concealcursor = ''
   let g:indentLine_char = '┆'
   let g:indentLine_faster = 1
 
@@ -267,10 +263,10 @@ nnoremap <silent> <F2> :NERDTreeFind<CR>
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
 
 " grep.vim
-nnoremap <silent> <leader>f :Rgrep<CR>
 let Grep_Default_Options = '-IR'
-let Grep_Skip_Files = '*.log *.db'
-let Grep_Skip_Dirs = '.git node_modules'
+let Grep_Skip_Files = '*.log *.db *.pyc *.csv'
+let Grep_Skip_Dirs = '.git node_modules target'
+nnoremap <silent> <leader>f :Rgrep<CR>
 
 " terminal emulation
 nnoremap <silent> <leader>sh :terminal<CR>
@@ -339,13 +335,13 @@ noremap <Leader>v :<C-u>vsplit<CR>
 
 "" Git
 noremap <Leader>ga :Gwrite<CR>
-noremap <Leader>gc :Gcommit<CR>
-noremap <Leader>gsh :Gpush<CR>
-noremap <Leader>gll :Gpull<CR>
-noremap <Leader>gs :Gstatus<CR>
-noremap <Leader>gb :Gblame<CR>
-noremap <Leader>gd :Gvdiff<CR>
-noremap <Leader>gr :Gremove<CR>
+noremap <Leader>gc :Git commit<CR>
+noremap <Leader>gsh :Git push<CR>
+noremap <Leader>gll :Git pull<CR>
+noremap <Leader>gs :Git<CR>
+noremap <Leader>gb :Git blame<CR>
+noremap <Leader>gd :Gvdiffsplit<CR>
+noremap <Leader>gr :GRemove<CR>
 
 " session management
 nnoremap <leader>so :OpenSession<Space>
@@ -472,6 +468,8 @@ let python_highlight_all = 1
 " Jsonc comments
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
+autocmd FileType json setlocal ts=2 sts=2 sw=2 expandtab colorcolumn=120
+
 " scala
 
 autocmd FileType scala setlocal ts=2 sts=2 sw=2 expandtab colorcolumn=120
@@ -534,22 +532,24 @@ autocmd CursorHoldI * silent! call CocAction('showSignatureHelp')
 " Use <c-space> for trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+    \ coc#pum#visible() ? coc#pum#next(1):
+    \ CheckBackspace() ? "\<Tab>" :
+    \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-function! s:check_back_space() abort
+" Make <cr> select the first completion item and confirm the completion when no item has been selected
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+" Additionnal formatting on completion
+"" inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
 " Use `lp` and `ln` to navigate diagnostics
 nmap <silent> <leader>lp <Plug>(coc-diagnostic-prev)
 nmap <silent> <leader>ln <Plug>(coc-diagnostic-next)
@@ -563,17 +563,14 @@ nmap <silent> <F11> <Plug>(coc-references)
 " Remap for do codeAction of current line
 nmap <leader>ac <Plug>(coc-codeaction)
 
-" Remap for do action format
-nnoremap <silent> <F10> :call CocAction('format')<CR>
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call ShowDocumentation()<CR>
 
-" Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
   else
-    call CocAction('doHover')
+    call feedkeys('K', 'in')
   endif
 endfunction
 
@@ -595,11 +592,6 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-"
-" Notify coc.nvim that <enter> has been pressed.
-" Currently used for the formatOnType feature.
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Toggle panel with Tree Views
 nnoremap <silent> <space>t :<C-u>CocCommand metals.tvp<CR>
@@ -609,6 +601,32 @@ nnoremap <silent> <space>tb :<C-u>CocCommand metals.tvp metalsBuild<CR>
 nnoremap <silent> <space>tc :<C-u>CocCommand metals.tvp metalsCompile<CR>
 " Reveal current current class (trait or object) in Tree View 'metalsBuild'
 nnoremap <silent> <space>tf :<C-u>CocCommand metals.revealInTreeView metalsBuild<CR>
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocActionAsync('format')
+
+" Formatting selected code.
+xmap <leader>fo  <Plug>(coc-format-selected)
+nmap <leader>fo  <Plug>(coc-format-selected)
+
+" Remap for do action format
+nnoremap <silent> <F10> :call CocAction('format')<CR>
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR :call CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 "*****************************************************************************
 "" Convenience variables

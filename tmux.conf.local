@@ -36,7 +36,7 @@ tmux_conf_new_session_prompt=false
 # custom
 custom_black="#000000"
 custom_white="#d8dee9"
-custom_red="#bf616a"
+custom_red="#974b46"
 custom_green="#5f8787"
 custom_yellow="#ebcb8b"
 custom_orange="#d08770"
