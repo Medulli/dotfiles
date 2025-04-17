@@ -1,4 +1,9 @@
 {
+    /* "python.jediEnabled": false, */
     "python.pythonPath": "python3",
-    "jedi.executable.command": "/usr/local/bin/jedi-language-server"
+    "jedi.executable.command": "/opt/homebrew/bin/jedi-language-server",
+    "jedi.markupKindPreferred": "plaintext",
+    "metals": {
+        "mavenScript": "/usr/local/bin/mvn"
+    }
 }

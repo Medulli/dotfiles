@@ -1,0 +1,42 @@
+[colors.bright]
+black = "0x333333"
+blue = "0x888888"
+cyan = "0xaaaaaa"
+green = "0x5f8787"
+magenta = "0x999999"
+red = "0x974b46"
+white = "0xc1c1c1"
+yellow = "0xfbcb97"
+
+[colors.normal]
+black = "0x000000"
+blue = "0x888888"
+cyan = "0xaaaaaa"
+green = "0x5f8787"
+magenta = "0x999999"
+red = "0x974b46"
+white = "0xc1c1c1"
+yellow = "0xfbcb97"
+
+[colors.primary]
+background = "0x000000"
+foreground = "0xc1c1c1"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 13
+
+[font.bold]
+style = "Bold"
+
+[font.bold_italic]
+style = "Bold Italic"
+
+[font.italic]
+style = "Italic"
+
+[font.normal]
+family = "MesloLGS NF"
+style = "Regular"
